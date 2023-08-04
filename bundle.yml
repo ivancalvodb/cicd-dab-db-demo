@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=bundle-settings-schema.json
+bundle:
+  name: awesome-bundle-project-name
+
+workspace:
+      host: https://e2-demo-field-eng.cloud.databricks.com
+
+resources:
+  pipelines:
+    etl-dtl-sensors-pipeline:
+      name: "Sensors medallion ETL pipeline"
+      catalog: ivan_calvo
+      target: dev_turbines
+      development: true
+      continuous: false
+      channel: "CURRENT"
+      photon: false
+      libraries:
+        - notebook:
+            path: dlt-pipelines/notebook-etl.sql
+      edition: "ADVANCED"
+      clusters:
+        - label: "default"
+          num_workers: 1
+
+environments:
+  development:
+    # it's in comments because this was specified at the beginning of the file.
+    #workspace:
+      #host: https://e2-demo-field-eng.cloud.databricks.com
