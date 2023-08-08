@@ -16,6 +16,9 @@ jobs:
       run: |
         curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
 
+    - name: Deploy to dev
+      run: databricks bundle deploy
+      
 # databricks bundle deploy
 
 # databricks run {etl name}
