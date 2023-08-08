@@ -35,3 +35,7 @@ The following command runs the pipeline *etl-dtl-sensors-pipeline* on the develo
 databricks bundle run -e development etl-dtl-sensors-pipeline
 ```
 
+
+
+
+
