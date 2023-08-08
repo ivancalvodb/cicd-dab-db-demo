@@ -1,30 +1,69 @@
 # yaml-language-server: $schema=bundle-settings-schema.json
 bundle:
-  name: awesome-bundle-project-name
+  name: awesome-dab-cicd-project
+
+variables:
+  dev-catalog:
+    description: "Development catalog: dev and test only"
+    default: dev_catalog_awesome_company
+  
+  dev-schema:
+    description: "Development schema: dev and test only"
+    default: dev_schema_awesome_company
+
+  prod-catalog:
+    description: "Production catalog"
+    default: prod_catalog_awesome_company
+
+  prod-schema:
+    description: "Production schema"
+    default: prod_schema_awesome_company 
 
 workspace:
-      host: https://e2-demo-field-eng.cloud.databricks.com
+  host: https://e2-demo-field-eng.cloud.databricks.com
 
 resources:
   pipelines:
-    etl-dtl-sensors-pipeline:
-      name: "Sensors medallion ETL pipeline"
-      catalog: ivan_calvo
-      target: dev_turbines
-      development: true
+    etl-dlt-sensors-pipeline:
+      name: "[${bundle.environment}] Sensors medallion ETL pipeline"
       continuous: false
       channel: "CURRENT"
-      photon: false
+ 
       libraries:
         - notebook:
             path: dlt-pipelines/notebook-etl.sql
       edition: "ADVANCED"
-      clusters:
-        - label: "default"
-          num_workers: 1
 
 environments:
-  development:
-    # it's in comments because this was specified at the beginning of the file.
+
+  dev:
+    default: true
+    resources:
+      pipelines:
+        etl-dlt-sensors-pipeline:
+          development: true
+          photon: false
+          catalog: ${var.dev-catalog}
+          target: ${var.dev-schema}
+
+          clusters:
+            - label: "default"
+              num_workers: 1
+
+  prod:
+
     #workspace:
-      #host: https://e2-demo-field-eng.cloud.databricks.com
+    #  host: https://random-host.cloud.databricks.com
+
+    resources:
+      pipelines:
+        etl-dlt-sensors-pipeline:
+          development: true #false
+          photon: false
+          catalog: ${var.prod-catalog}
+          target: ${var.prod-schema}
+
+          new_cluster:
+            spark_version: 13.1.x-scala2.12
+            num_workers: 1
+            node_type_id: i3.xlarge
