@@ -37,7 +37,8 @@ resources:
 environments:
 
   dev:
-    default: true
+    default: 
+      true
     resources:
       pipelines:
         etl-dlt-sensors-pipeline:
