@@ -17,7 +17,13 @@ jobs:
         curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
 
     - name: Deploy to dev
-      run: databricks bundle deploy
+      run: databricks bundle deploy  
+      env: 
+          DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
+
+    - name: Run pipeline
+      run: databricks bundle run etl-dlt-sensors-pipeline
+
       
 # databricks bundle deploy
 
