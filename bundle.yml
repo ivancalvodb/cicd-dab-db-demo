@@ -21,6 +21,12 @@ variables:
 
 workspace:
   host: https://adb-984752964297111.11.azuredatabricks.net
+  azure_client_id: string # For Databricks on Azure only.
+  azure_environment: string # For Databricks on Azure only.
+  azure_login_app_id: string # For Databricks on Azure only.
+  azure_tenant_id: string # For Databricks on Azure only.
+  azure_use_msi: true | false # For Databricks on Azure only.
+  azure_workspace_resource_id: string # For Databricks on Azure only.
 
 resources:
   pipelines:
