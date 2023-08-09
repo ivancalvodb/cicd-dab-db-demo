@@ -16,19 +16,19 @@ jobs:
       run: |
         curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
 
-    - name: Deploy to dev
+    - name: [DEV] Destroy past bundle files
       run: databricks bundle destroy --auto-approve --force
       env:
         DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
         DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
 
-    - name: Deploy to dev
+    - name: [DEV] Deploy bundle
       run: databricks bundle deploy
       env:
         DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
         DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
           
-    - name: Run pipeline
+    - name: [DEV] Run pipeline
       run: databricks bundle run etl-dlt-sensors-pipeline
       env:
         DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
