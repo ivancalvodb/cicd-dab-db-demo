@@ -23,8 +23,3 @@ jobs:
 
     - name: Run pipeline
       run: databricks bundle run etl-dlt-sensors-pipeline
-
-      
-# databricks bundle deploy
-
-# databricks run {etl name}

@@ -20,7 +20,7 @@ variables:
     default: prod_schema_awesome_company 
 
 workspace:
-  host: https://e2-demo-field-eng.cloud.databricks.com
+  host: https://adb-984752964297111.11.azuredatabricks.net
 
 resources:
   pipelines:
