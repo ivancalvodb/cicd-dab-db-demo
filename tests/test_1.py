@@ -21,7 +21,7 @@ def ws_conn():
     # return the workspace connection, uses DATABRICKS_HOST and DATABRICKS_TOKEN env variables.
     return WorkspaceClient(host = os.environ['DATABRICKS_HOST'], token = os.environ['DATABRICKS_TOKEN'])
 
-def check_dbfs_paths(ws_conn):
+def test_check_dbfs_paths(ws_conn):
     # if all paths exists, test pass
     exists_paths = [ws_conn.dbfs.exists(path) for path in [DBFS_TURBINE_DATA, DBFS_INCOMING_DATA, DBFS_HISTORICAL_STATUS_DATA]]
     assert all(exists_paths)
