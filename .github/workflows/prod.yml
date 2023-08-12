@@ -1,8 +1,8 @@
-name: dev DAB
+name: prod DAB
 
 on:
   pull_request:
-    branches: [ "dev" ]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -41,21 +41,26 @@ jobs:
 
     - name: Destroy past bundle files
       if: success()
-      run: databricks bundle destroy --auto-approve --force-lock
+      run: databricks bundle destroy -e prod --auto-approve --force-lock
       env:
         DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
         DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
 
     - name: Deploy bundle
       if: success()    
-      run: databricks bundle deploy
+      run: databricks bundle deploy -e prod
       env:
         DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
         DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
           
     - name: Run pipeline
       if: success()    
-      run: databricks bundle run etl-dlt-sensors-pipeline
+      run: databricks bundle run -e prod etl-dlt-sensors-pipeline 
       env:
         DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
         DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
+
+    
+
+
+    
