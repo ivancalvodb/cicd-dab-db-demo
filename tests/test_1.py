@@ -16,13 +16,18 @@ DEV_SCHEMA = "dev_schema_awesome_company"
 PROD_CATALOG = "prod_catalog_awesome_company"
 PROD_SCHEMA = "prod_schema_awesome_company"
 
-
 @pytest.fixture
 def ws_conn():
     # return the workspace connection, uses DATABRICKS_HOST and DATABRICKS_TOKEN env variables.
     return WorkspaceClient(host = os.environ['DATABRICKS_HOST'], token = os.environ['DATABRICKS_TOKEN'])
 
+def check_dbfs_paths(ws_conn):
+    # if all paths exists, test pass
+    exists_paths = [ws_conn.dbfs.exists(path) for path in [DBFS_TURBINE_DATA, DBFS_INCOMING_DATA, DBFS_HISTORICAL_STATUS_DATA]]
+    assert all(exists_paths)
+
 def test_unity_catalog_objects(ws_conn):
+    # assert value, if a catalog or schema does not exists, this value is set to False
     assert_flag = True
 
     # creates 2 sets: test and ws 
@@ -49,3 +54,5 @@ def test_unity_catalog_objects(ws_conn):
         assert_flag = False   
 
     assert assert_flag
+
+
