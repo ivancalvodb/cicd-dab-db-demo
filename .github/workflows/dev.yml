@@ -41,7 +41,7 @@ jobs:
 
     - name: Destroy past bundle files
       if: success()
-      run: databricks bundle destroy --auto-approve --force
+      run: databricks bundle destroy --auto-approve --force-lock
       env:
         DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
         DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
