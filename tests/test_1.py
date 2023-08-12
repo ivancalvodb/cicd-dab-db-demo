@@ -23,7 +23,7 @@ def ws_conn():
     return WorkspaceClient(host = os.environ['DATABRICKS_HOST'], token = os.environ['DATABRICKS_TOKEN'])
 
 def test_unity_catalog_objects(ws_conn):
-    catalog = True
+    assert_flag = True
 
     # creates 2 sets: test and ws 
     test_catalogs = {DEV_CATALOG, PROD_CATALOG}
