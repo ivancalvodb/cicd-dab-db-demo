@@ -47,7 +47,7 @@ def test_unity_catalog_objects(ws_conn):
             try:
                 ws_conn.schemas.get(full_name=f'catalog.schema')
             except:
-                catalog = False
+                assert_flag = False
                 break
 
     else:
