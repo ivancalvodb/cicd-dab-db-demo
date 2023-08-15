@@ -30,18 +30,20 @@ def test_unity_catalog_objects(ws_conn):
     # assert value, if a catalog or schema does not exists, this value is set to False
     assert_flag = True
 
-    # creates 2 sets: test and ws 
-    test_catalogs = {DEV_CATALOG, PROD_CATALOG}
+    # catalogs we want to check if exists before writting tables in to.
+    catalogs = {DEV_CATALOG, PROD_CATALOG}
+
+    # existing UC catalogs
     ws_catalogs = {x.name for x in ws_conn.catalogs.list()}
 
-    # computes the intersection
-    catalog_intersection = test_catalogs.intersection(ws_catalogs)
+    # computes the intersection between the catalogs we wanna check existence and existing UC catalogs
+    catalog_intersection = catalogs.intersection(ws_catalogs)
 
     # if all the necessary (test) catalogs are on the ws catalogs, check the schemas
-    if test_catalogs == catalog_intersection:
+    if catalogs == catalog_intersection:
         
-        test_schemas = {DEV_SCHEMA, PROD_SCHEMA}
-        catalog_schema_pairs = zip(test_catalogs, test_schemas)
+        schemas = {DEV_SCHEMA, PROD_SCHEMA}
+        catalog_schema_pairs = zip(catalogs, schemas)
 
         for catalog, schema in catalog_schema_pairs:
             try:
