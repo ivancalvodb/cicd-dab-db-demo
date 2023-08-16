@@ -43,11 +43,11 @@ def test_unity_catalog_objects(ws_conn):
     if catalogs == catalog_intersection:
         
         schemas = {DEV_SCHEMA, PROD_SCHEMA}
-        catalog_schema_pairs = zip(catalogs, schemas)
+        catalog_schema_pairs = tuple(zip(catalogs, schemas))
 
         for catalog, schema in catalog_schema_pairs:
             try:
-                ws_conn.schemas.get(full_name=f'catalog.schema')
+                ws_conn.schemas.get(full_name=f'{catalog}.{schema}')
             except:
                 assert_flag = False
                 break
