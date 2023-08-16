@@ -48,7 +48,7 @@ jobs:
         DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
 
     - name: Deploy bundle
-      if: success() || failure()
+      if: success()
       run: databricks bundle deploy -e prod
       env:
         DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
