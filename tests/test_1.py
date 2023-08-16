@@ -39,7 +39,7 @@ def test_unity_catalog_objects(ws_conn):
     # computes the intersection between the catalogs we wanna check existence and existing UC catalogs
     catalog_intersection = catalogs.intersection(ws_catalogs)
 
-    # if all the necessary (test) catalogs are on the ws catalogs, check the schemas
+    # if all the necessary (test) catalogs are on the ws catalogs, check the schemas.
     if catalogs == catalog_intersection:
         
         schemas = {DEV_SCHEMA, PROD_SCHEMA}
