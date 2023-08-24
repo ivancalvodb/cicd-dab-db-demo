@@ -21,12 +21,6 @@ variables:
 
 workspace:
   host: https://adb-984752964297111.11.azuredatabricks.net
-  #azure_client_id: string # For Databricks on Azure only.
-  #azure_environment: string # For Databricks on Azure only.
-  #azure_login_app_id: string # For Databricks on Azure only.
-  #azure_tenant_id: string # For Databricks on Azure only.
-  #azure_use_msi: true | false # For Databricks on Azure only.
-  #azure_workspace_resource_id: string # For Databricks on Azure only.
 
 resources:
   pipelines:
@@ -70,7 +64,6 @@ environments:
           catalog: ${var.prod-catalog}
           target: ${var.prod-schema}
 
-          new_cluster:
-            spark_version: 13.1.x-scala2.12
-            num_workers: 1
-            node_type_id: i3.xlarge
+          clusters:
+            - label: "default"
+              num_workers: 2
