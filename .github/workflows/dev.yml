@@ -1,4 +1,4 @@
-name: dev DAB
+name: Dev branch PR
 
 on:
   pull_request:

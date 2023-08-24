@@ -1,11 +1,16 @@
-name: prod DAB
+name: Main branch PR
 
 on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
+  DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
+
 jobs:
-  build:
+
+  build-test-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,44 +28,29 @@ jobs:
         pip install -r requirements.txt
 
     - name: Install Databricks CLI
-      run: |
-        curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+      uses: databricks/setup-cli@main
 
-    - name: Validate bundle yml
+      # Databricks CLI can also be installed from main repo
+      #run: |
+      #  curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+    - name: Validate Bundle file
       run: databricks bundle validate
-      env:
-        DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
-        DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
 
     - name: Run unit tests
       if: success()
       run: pytest tests
-      env:
-        DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
-        DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
 
+      # Can't deploy if there pipeline name is already in use.
     - name: Destroy past bundle files
       if: success()
       continue-on-error: true
-      run: databricks bundle destroy -e prod --auto-approve
-      env:
-        DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
-        DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
+      run: databricks bundle destroy --auto-approve -e prod
 
     - name: Deploy bundle
       if: success()
       run: databricks bundle deploy -e prod
-      env:
-        DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
-        DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
           
     - name: Run pipeline
       if: success()    
-      run: databricks bundle run -e prod etl-dlt-sensors-pipeline 
-      env:
-        DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
-        DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
-    
-
-
-    
+      run: databricks bundle run etl-dlt-sensors-pipeline -e prod
