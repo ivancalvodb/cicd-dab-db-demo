@@ -17,7 +17,7 @@ variables:
 
   prod-schema:
     description: "Production schema"
-    default: prod_schema_awesome_company 
+    default: prod_schema_awesome_company
 
 workspace:
   host: https://adb-984752964297111.11.azuredatabricks.net
@@ -35,7 +35,6 @@ resources:
       edition: "ADVANCED"
 
 environments:
-
   dev:
     default: 
       true
@@ -52,15 +51,13 @@ environments:
               num_workers: 1
 
   prod:
-
-    #workspace:
-    #  host: https://random-host.cloud.databricks.com
-
+    workspace:
+      host: https://adb-984752964297111.11.azuredatabricks.net
     resources:
       pipelines:
         etl-dlt-sensors-pipeline:
-          development: true #false
-          photon: false
+          development: false
+          photon: true
           catalog: ${var.prod-catalog}
           target: ${var.prod-schema}
 
