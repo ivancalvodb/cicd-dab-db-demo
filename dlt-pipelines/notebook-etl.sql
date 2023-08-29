@@ -2,6 +2,7 @@
 -- COMMAND ----------
 
 -- DBTITLE 1,Turbine metadata
+-- new comment
 CREATE INCREMENTAL LIVE TABLE turbine (
   CONSTRAINT correct_schema EXPECT (_rescued_data IS NULL)
 )
