@@ -35,6 +35,7 @@ resources:
       edition: "ADVANCED"
 
 environments:
+
   dev:
     default: 
       true
