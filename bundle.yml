@@ -19,9 +19,6 @@ variables:
     description: "Production schema"
     default: prod_schema_awesome_company
 
-workspace:
-  host: https://adb-984752964297111.11.azuredatabricks.net
-
 resources:
   pipelines:
     etl-dlt-sensors-pipeline:
@@ -37,6 +34,8 @@ resources:
 environments:
 
   dev:
+    workspace:
+      host: https://adb-984752964297111.11.azuredatabricks.net
     default: 
       true
     resources:
