@@ -35,7 +35,7 @@ jobs:
       #  curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
 
     - name: Validate Bundle file
-      run: databricks bundle validate -e prod
+      run: databricks bundle validate --target prod
 
     - name: Run unit tests
       if: success()
@@ -45,12 +45,12 @@ jobs:
     - name: Destroy past bundle files
       if: success()
       continue-on-error: true
-      run: databricks bundle destroy --auto-approve -e prod
+      run: databricks bundle destroy --auto-approve --target prod
 
     - name: Deploy bundle
       if: success()
-      run: databricks bundle deploy -e prod
+      run: databricks bundle deploy --target prod
           
     - name: Run pipeline
       if: success()    
-      run: databricks bundle run etl-dlt-sensors-pipeline -e prod
+      run: databricks bundle run etl-dlt-sensors-pipeline --target prod
