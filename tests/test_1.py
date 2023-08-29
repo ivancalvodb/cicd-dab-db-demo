@@ -1,5 +1,6 @@
 import os
 import pytest
+import time
 
 import databricks
 from databricks.sdk import WorkspaceClient
@@ -48,6 +49,7 @@ def test_unity_catalog_objects(ws_conn):
         for catalog, schema in catalog_schema_pairs:
             try:
                 ws_conn.schemas.get(full_name=f'{catalog}.{schema}')
+                time.sleep(1)
             except:
                 assert_flag = False
                 break
