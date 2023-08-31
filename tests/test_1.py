@@ -57,6 +57,7 @@ def test_unity_catalog_objects(ws_conn):
     else:
         assert_flag = False   
 
+    assert True
     assert assert_flag
 
 
