@@ -1,7 +1,7 @@
 -- Databricks notebook source
 -- COMMAND ----------
 
--- DBTITLE 1,Turbine metadata
+-- sasaasaDBTITLE 1,Turbine metadata
 CREATE INCREMENTAL LIVE TABLE turbine (
   CONSTRAINT correct_schema EXPECT (_rescued_data IS NULL)
 )

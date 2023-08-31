@@ -31,6 +31,7 @@ resources:
             path: dlt-pipelines/notebook-etl.sql
       edition: "ADVANCED"
 
+
 environments:
 
   dev:
