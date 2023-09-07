@@ -5,7 +5,7 @@
 CREATE INCREMENTAL LIVE TABLE turbine (
   CONSTRAINT correct_schema EXPECT (_rescued_data IS NULL)
 )
-COMMENT "Turbine details, with location, wind turbine model type etc"
+COMMENT "Tuuurbine details, with location, wind turbine model type etc"
 AS SELECT * FROM cloud_files("/demos/manufacturing/iot_turbine/turbine", "json", map("cloudFiles.inferColumnTypes" , "true"))
 
 -- COMMAND ----------

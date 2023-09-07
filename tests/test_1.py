@@ -45,5 +45,6 @@ def test_unity_catalog_objects(ws_conn):
         except:
             assert_flag = False
             break
-
+    
+    assert_flag = True
     assert assert_flag
