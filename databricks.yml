@@ -32,8 +32,7 @@ resources:
       edition: "ADVANCED"
 
 
-environments:
-
+targets:
   dev:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
@@ -46,7 +45,7 @@ environments:
           photon: false
           catalog: ${var.dev-catalog}
           target: ${var.dev-schema}
-
+          channel: "PREVIEW"
           clusters:
             - label: "default"
               num_workers: 1
