@@ -39,7 +39,7 @@ jobs:
 
     - name: Run unit tests
       if: success()
-      run: pytest tests
+      run: pytest src/tests
 
       # Can't deploy if there pipeline name is already in use.
     - name: Destroy past bundle files
@@ -53,4 +53,4 @@ jobs:
           
     - name: Run pipeline
       if: success()    
-      run: databricks bundle run etl-dlt-sensors-pipeline --target prod
+      run: databricks bundle run dlt-sensors-pipeline --target prod

@@ -626,6 +626,15 @@
                                       },
                                       "additionalProperties": false
                                     },
+                                    "volumes": {
+                                      "type": "object",
+                                      "properties": {
+                                        "destination": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "additionalProperties": false
+                                    },
                                     "workspace": {
                                       "type": "object",
                                       "properties": {
@@ -1247,6 +1256,15 @@
                                       },
                                       "additionalProperties": false
                                     },
+                                    "volumes": {
+                                      "type": "object",
+                                      "properties": {
+                                        "destination": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "additionalProperties": false
+                                    },
                                     "workspace": {
                                       "type": "object",
                                       "properties": {
@@ -1663,6 +1681,119 @@
                     }
                   },
                   "additionalProperties": false
+                }
+              },
+              "model_serving_endpoints": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object",
+                      "properties": {
+                        "served_models": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "environment_vars": {
+                                "type": "object",
+                                "additionalProperties": {
+                                  "type": "string"
+                                }
+                              },
+                              "instance_profile_arn": {
+                                "type": "string"
+                              },
+                              "model_name": {
+                                "type": "string"
+                              },
+                              "model_version": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "scale_to_zero_enabled": {
+                                "type": "boolean"
+                              },
+                              "workload_size": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false,
+                            "required": [
+                              "model_name",
+                              "model_version",
+                              "scale_to_zero_enabled",
+                              "workload_size"
+                            ]
+                          }
+                        },
+                        "traffic_config": {
+                          "type": "object",
+                          "properties": {
+                            "routes": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "served_model_name": {
+                                    "type": "string"
+                                  },
+                                  "traffic_percentage": {
+                                    "type": "number"
+                                  }
+                                },
+                                "additionalProperties": false,
+                                "required": [
+                                  "served_model_name",
+                                  "traffic_percentage"
+                                ]
+                              }
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "served_models"
+                      ]
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "permissions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "group_name": {
+                            "type": "string"
+                          },
+                          "level": {
+                            "type": "string"
+                          },
+                          "service_principal_name": {
+                            "type": "string"
+                          },
+                          "user_name": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                          "level"
+                        ]
+                      }
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "config",
+                    "name"
+                  ]
                 }
               },
               "models": {
@@ -2220,6 +2351,18 @@
         "additionalProperties": false
       }
     },
+    "experimental": {
+      "type": "object",
+      "properties": {
+        "scripts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
     "include": {
       "type": "array",
       "description": "A list of glob patterns of files to load and merge into the this configuration. Defaults to no files being included.",
@@ -2773,6 +2916,15 @@
                                   "region": {
                                     "type": "string",
                                     "description": "S3 region, e.g. `us-west-2`. Either region or endpoint needs to be set. If both are set,\nendpoint will be used."
+                                  }
+                                },
+                                "additionalProperties": false
+                              },
+                              "volumes": {
+                                "type": "object",
+                                "properties": {
+                                  "destination": {
+                                    "type": "string"
                                   }
                                 },
                                 "additionalProperties": false
@@ -3521,6 +3673,15 @@
                                 },
                                 "additionalProperties": false
                               },
+                              "volumes": {
+                                "type": "object",
+                                "properties": {
+                                  "destination": {
+                                    "type": "string"
+                                  }
+                                },
+                                "additionalProperties": false
+                              },
                               "workspace": {
                                 "type": "object",
                                 "description": "destination needs to be provided. e.g.\n`{ \"workspace\" : { \"destination\" : \"/Users/user1@databricks.com/my-init.sh\" } }`",
@@ -4012,6 +4173,119 @@
               }
             },
             "additionalProperties": false
+          }
+        },
+        "model_serving_endpoints": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "config": {
+                "type": "object",
+                "properties": {
+                  "served_models": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "environment_vars": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        "instance_profile_arn": {
+                          "type": "string"
+                        },
+                        "model_name": {
+                          "type": "string"
+                        },
+                        "model_version": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "scale_to_zero_enabled": {
+                          "type": "boolean"
+                        },
+                        "workload_size": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "model_name",
+                        "model_version",
+                        "scale_to_zero_enabled",
+                        "workload_size"
+                      ]
+                    }
+                  },
+                  "traffic_config": {
+                    "type": "object",
+                    "properties": {
+                      "routes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "served_model_name": {
+                              "type": "string"
+                            },
+                            "traffic_percentage": {
+                              "type": "number"
+                            }
+                          },
+                          "additionalProperties": false,
+                          "required": [
+                            "served_model_name",
+                            "traffic_percentage"
+                          ]
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "served_models"
+                ]
+              },
+              "name": {
+                "type": "string"
+              },
+              "permissions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "group_name": {
+                      "type": "string"
+                    },
+                    "level": {
+                      "type": "string"
+                    },
+                    "service_principal_name": {
+                      "type": "string"
+                    },
+                    "user_name": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "level"
+                  ]
+                }
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "config",
+              "name"
+            ]
           }
         },
         "models": {
@@ -5269,6 +5543,15 @@
                                       },
                                       "additionalProperties": false
                                     },
+                                    "volumes": {
+                                      "type": "object",
+                                      "properties": {
+                                        "destination": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "additionalProperties": false
+                                    },
                                     "workspace": {
                                       "type": "object",
                                       "description": "destination needs to be provided. e.g.\n`{ \"workspace\" : { \"destination\" : \"/Users/user1@databricks.com/my-init.sh\" } }`",
@@ -6013,6 +6296,15 @@
                                       },
                                       "additionalProperties": false
                                     },
+                                    "volumes": {
+                                      "type": "object",
+                                      "properties": {
+                                        "destination": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "additionalProperties": false
+                                    },
                                     "workspace": {
                                       "type": "object",
                                       "description": "destination needs to be provided. e.g.\n`{ \"workspace\" : { \"destination\" : \"/Users/user1@databricks.com/my-init.sh\" } }`",
@@ -6504,6 +6796,119 @@
                     }
                   },
                   "additionalProperties": false
+                }
+              },
+              "model_serving_endpoints": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object",
+                      "properties": {
+                        "served_models": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "environment_vars": {
+                                "type": "object",
+                                "additionalProperties": {
+                                  "type": "string"
+                                }
+                              },
+                              "instance_profile_arn": {
+                                "type": "string"
+                              },
+                              "model_name": {
+                                "type": "string"
+                              },
+                              "model_version": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "scale_to_zero_enabled": {
+                                "type": "boolean"
+                              },
+                              "workload_size": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false,
+                            "required": [
+                              "model_name",
+                              "model_version",
+                              "scale_to_zero_enabled",
+                              "workload_size"
+                            ]
+                          }
+                        },
+                        "traffic_config": {
+                          "type": "object",
+                          "properties": {
+                            "routes": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "served_model_name": {
+                                    "type": "string"
+                                  },
+                                  "traffic_percentage": {
+                                    "type": "number"
+                                  }
+                                },
+                                "additionalProperties": false,
+                                "required": [
+                                  "served_model_name",
+                                  "traffic_percentage"
+                                ]
+                              }
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "served_models"
+                      ]
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "permissions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "group_name": {
+                            "type": "string"
+                          },
+                          "level": {
+                            "type": "string"
+                          },
+                          "service_principal_name": {
+                            "type": "string"
+                          },
+                          "user_name": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                          "level"
+                        ]
+                      }
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "config",
+                    "name"
+                  ]
                 }
               },
               "models": {
@@ -7246,9 +7651,5 @@
       "additionalProperties": false
     }
   },
-  "additionalProperties": false,
-  "required": [
-    "bundle",
-    "sync"
-  ]
+  "additionalProperties": false
 }
