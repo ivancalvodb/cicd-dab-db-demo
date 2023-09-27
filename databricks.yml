@@ -22,7 +22,7 @@ variables:
 resources:
   pipelines:
     dlt-sensors-pipeline:
-      name: "[${bundle.environment}] Sensors medallion ETL pipeline"
+      name: "[${bundle.target}] DTL Sensors pipeline"
       continuous: false
       channel: "PREVIEW"
  

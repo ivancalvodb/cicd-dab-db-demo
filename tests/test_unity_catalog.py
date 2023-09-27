@@ -6,6 +6,8 @@ import time
 import databricks
 from databricks.sdk import WorkspaceClient
 
+import src.libraries.awesome_lib_1 as awesome_lib_1
+
 @pytest.fixture
 def ws_conn():
     # Return the workspace connection, uses DATABRICKS_HOST and DATABRICKS_TOKEN env variables.
