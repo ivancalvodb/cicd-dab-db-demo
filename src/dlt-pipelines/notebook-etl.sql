@@ -55,7 +55,7 @@ SELECT turbine_id,
 
 -- COMMAND ----------
 
--- Build our table used by ML Engineers: join sensor aggregates with wind turbine metadata and historical status
+-- Builds our table used by ML Engineers: join sensor aggregates with wind turbine metadata and historical status
 CREATE LIVE TABLE turbine_training_dataset 
 COMMENT "Hourly sensor stats, used to describe signal and detect anomalies"
 AS
