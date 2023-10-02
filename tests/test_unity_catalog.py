@@ -13,6 +13,9 @@ def ws_conn():
     # Return the workspace connection, uses DATABRICKS_HOST and DATABRICKS_TOKEN env variables.
     return WorkspaceClient(host = os.environ['DATABRICKS_HOST'], token = os.environ['DATABRICKS_TOKEN'])
 
+def test_add():
+    assert 1+2 == awesome_lib_1.add_two_numbers(1,2)
+
 def test_dbfs_paths(ws_conn):
     # - DBFS
     # ws_conn.dbfs.exists()
