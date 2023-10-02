@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=bundle-settings-schema.json
+# yaml-language-server: $schema=bundle-schema.json
 bundle:
   name: awesome-dab-cicd-project
 
@@ -21,41 +21,40 @@ variables:
 
 resources:
   pipelines:
-    etl-dlt-sensors-pipeline:
-      name: "[${bundle.environment}] Sensors medallion ETL pipeline"
+    dlt-sensors-pipeline:
+      name: "[${bundle.target}] DTL Sensors pipeline"
       continuous: false
-      channel: "CURRENT"
+      channel: "PREVIEW"
  
       libraries:
         - notebook:
-            path: dlt-pipelines/notebook-etl.sql
+            path: src/dlt-pipelines/notebook-etl.sql
       edition: "ADVANCED"
 
-environments:
 
+targets:
   dev:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
-    default: 
-      true
+    default: true
+    
     resources:
       pipelines:
-        etl-dlt-sensors-pipeline:
+        dlt-sensors-pipeline:
           development: true
           photon: false
           catalog: ${var.dev-catalog}
           target: ${var.dev-schema}
-
           clusters:
             - label: "default"
-              num_workers: 1
+              num_workers: 2
 
   prod:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
     resources:
       pipelines:
-        etl-dlt-sensors-pipeline:
+        dlt-sensors-pipeline:
           development: false
           photon: true
           catalog: ${var.prod-catalog}
@@ -63,4 +62,4 @@ environments:
 
           clusters:
             - label: "default"
-              num_workers: 2
+              num_workers: 4
