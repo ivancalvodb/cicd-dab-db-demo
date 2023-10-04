@@ -22,7 +22,7 @@ def test_dbfs_paths(ws_conn):
     assert True
 
 def test_unity_catalog_objects(ws_conn):
-    # - Catalogs
+    # - Catalogss
     # ws_conn.catalogs.list()
     # ws_conn.catalogs.get(name=...)
 
