@@ -54,7 +54,7 @@ targets:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
 
-    # mode: production
+    # mode: production, comment_here
     resources:
       pipelines:
         dlt-sensors-pipeline:
