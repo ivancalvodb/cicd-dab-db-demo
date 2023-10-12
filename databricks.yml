@@ -22,7 +22,8 @@ variables:
 resources:
   pipelines:
     dlt-sensors-pipeline:
-      name: "[${bundle.target}] DTL Sensors pipeline"
+      # ${bundle.target}
+      name: "DTL Sensors pipeline"
       continuous: false
       channel: "PREVIEW"
  
@@ -36,6 +37,7 @@ targets:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
     default: true
+    mode: development
     
     resources:
       pipelines:
@@ -51,6 +53,8 @@ targets:
   prod:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
+
+    mode: production
     resources:
       pipelines:
         dlt-sensors-pipeline:
