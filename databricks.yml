@@ -1,12 +1,14 @@
 # yaml-language-server: $schema=bundle-schema.json
 bundle:
   name: awesome-dab-cicd-project
+  
+
 
 variables:
   dev-catalog:
     description: "Development catalog: dev and test only"
     default: dev_catalog_awesome_company
-  
+
   dev-schema:
     description: "Development schema: dev and test only"
     default: dev_schema_awesome_company
@@ -31,7 +33,7 @@ resources:
         - notebook:
             path: src/dlt-pipelines/notebook-etl.sql
       edition: "ADVANCED"
-
+    
 targets:
   dev:
     workspace:
