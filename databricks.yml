@@ -19,18 +19,76 @@ variables:
     description: "Production schema"
     default: prod_schema_awesome_company
 
+  job-cluster-id:
+    description: "This is the cluster where the job is going to be executed"
+    default: 0908-194241-na3ezc37
+
 resources:
+  jobs:
+    galaxy-job:
+      name: "Awesome Galaxy Job"
+
+      tasks:
+        # Task A
+        - task_key: task_a
+          notebook_task:
+            notebook_path: src/jobs/galaxy-job/task_1A.py
+          
+          existing_cluster_id: ${var.job-cluster-id}
+
+        # Task B
+        - task_key: task_b
+          notebook_task:
+            notebook_path: src/jobs/galaxy-job/task_1B.py
+          
+          existing_cluster_id: ${var.job-cluster-id}
+
+        # Task C
+        - task_key: task_c
+          notebook_task:
+            notebook_path: src/jobs/galaxy-job/task_1C.py
+          
+          existing_cluster_id: ${var.job-cluster-id}
+
+        # Task D
+        - task_key: task_d
+          depends_on:
+            - task_key: task_a
+            - task_key: task_b
+            - task_key: task_c
+          
+          run_if: ALL_SUCCESS
+
+          notebook_task:
+            notebook_path: src/jobs/galaxy-job/task_2D.py
+          
+          existing_cluster_id: ${var.job-cluster-id}
+
+
+      permissions:
+        - group_name: users
+          level: CAN_VIEW
+
+        - group_name: users
+          level: CAN_MANAGE_RUN
+
   pipelines:
     dlt-sensors-pipeline:
-      # ${bundle.target}
       name: "DTL Sensors pipeline"
       continuous: false
       channel: "PREVIEW"
  
       libraries:
         - notebook:
-            path: src/dlt-pipelines/notebook-etl.sql
+            path: src/dlt-pipelines/turbine-sensors-etl.sql
       edition: "ADVANCED"
+
+      permissions:
+        - group_name: users
+          level: CAN_VIEW
+
+        - group_name: users
+          level: CAN_RUN
     
 targets:
   dev:
