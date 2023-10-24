@@ -35,10 +35,7 @@
         },
         "additionalProperties": false,
         "required": [
-          "type",
-          "path",
-          "files",
-          "build"
+          "type"
         ]
       }
     },
@@ -108,10 +105,7 @@
               },
               "additionalProperties": false,
               "required": [
-                "type",
-                "path",
-                "files",
-                "build"
+                "type"
               ]
             }
           },
@@ -271,6 +265,21 @@
                       },
                       "additionalProperties": false
                     },
+                    "deployment": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string"
+                        },
+                        "metadata_file_path": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "kind"
+                      ]
+                    },
                     "email_notifications": {
                       "type": "object",
                       "properties": {
@@ -395,6 +404,9 @@
                           "new_cluster": {
                             "type": "object",
                             "properties": {
+                              "apply_policy_default_values": {
+                                "type": "boolean"
+                              },
                               "autoscale": {
                                 "type": "object",
                                 "properties": {
@@ -776,6 +788,18 @@
                         ]
                       }
                     },
+                    "queue": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": {
+                          "type": "boolean"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "enabled"
+                      ]
+                    },
                     "run_as": {
                       "type": "object",
                       "properties": {
@@ -1025,6 +1049,9 @@
                           "new_cluster": {
                             "type": "object",
                             "properties": {
+                              "apply_policy_default_values": {
+                                "type": "boolean"
+                              },
                               "autoscale": {
                                 "type": "object",
                                 "properties": {
@@ -1590,6 +1617,60 @@
                           },
                           "timeout_seconds": {
                             "type": "number"
+                          },
+                          "webhook_notifications": {
+                            "type": "object",
+                            "properties": {
+                              "on_duration_warning_threshold_exceeded": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              },
+                              "on_failure": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              },
+                              "on_start": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              },
+                              "on_success": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              }
+                            },
+                            "additionalProperties": false
                           }
                         },
                         "additionalProperties": false,
@@ -1624,6 +1705,9 @@
                         }
                       },
                       "additionalProperties": false
+                    },
+                    "ui_state": {
+                      "type": "string"
                     },
                     "webhook_notifications": {
                       "type": "object",
@@ -1719,6 +1803,9 @@
                               },
                               "workload_size": {
                                 "type": "string"
+                              },
+                              "workload_type": {
+                                "type": "string"
                               }
                             },
                             "additionalProperties": false,
@@ -1785,6 +1872,24 @@
                         "additionalProperties": false,
                         "required": [
                           "level"
+                        ]
+                      }
+                    },
+                    "tags": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "key": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                          "key"
                         ]
                       }
                     }
@@ -2216,6 +2321,27 @@
                     "name": {
                       "type": "string"
                     },
+                    "notifications": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "alerts": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "email_recipients": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
                     "permissions": {
                       "type": "array",
                       "items": {
@@ -2274,6 +2400,57 @@
                   },
                   "additionalProperties": false
                 }
+              },
+              "registered_models": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "catalog_name": {
+                      "type": "string"
+                    },
+                    "comment": {
+                      "type": "string"
+                    },
+                    "grants": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "principal": {
+                            "type": "string"
+                          },
+                          "privileges": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                          "privileges",
+                          "principal"
+                        ]
+                      }
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "schema_name": {
+                      "type": "string"
+                    },
+                    "storage_location": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "catalog_name",
+                    "name",
+                    "schema_name"
+                  ]
+                }
               }
             },
             "additionalProperties": false
@@ -2286,6 +2463,24 @@
               },
               "user_name": {
                 "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "sync": {
+            "type": "object",
+            "properties": {
+              "exclude": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "include": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               }
             },
             "additionalProperties": false
@@ -2354,6 +2549,9 @@
     "experimental": {
       "type": "object",
       "properties": {
+        "python_wheel_wrapper": {
+          "type": "boolean"
+        },
         "scripts": {
           "type": "object",
           "additionalProperties": {
@@ -2495,6 +2693,21 @@
                 },
                 "additionalProperties": false
               },
+              "deployment": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string"
+                  },
+                  "metadata_file_path": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "kind"
+                ]
+              },
               "email_notifications": {
                 "type": "object",
                 "description": "An optional set of email addresses that is notified when runs of this job begin or complete as well as when this job is deleted. The default behavior is to not send any emails.",
@@ -2635,6 +2848,9 @@
                       "type": "object",
                       "description": "If new_cluster, a description of a cluster that is created for only for this task.",
                       "properties": {
+                        "apply_policy_default_values": {
+                          "type": "boolean"
+                        },
                         "autoscale": {
                           "type": "object",
                           "description": "Parameters needed in order to automatically scale clusters up and down based on load.\nNote: autoscaling works best with DB runtime versions 3.0 or later.",
@@ -3092,6 +3308,18 @@
                   ]
                 }
               },
+              "queue": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "enabled"
+                ]
+              },
               "run_as": {
                 "type": "object",
                 "properties": {
@@ -3388,6 +3616,9 @@
                       "type": "object",
                       "description": "If new_cluster, a description of a cluster that is created for only for this task.",
                       "properties": {
+                        "apply_policy_default_values": {
+                          "type": "boolean"
+                        },
                         "autoscale": {
                           "type": "object",
                           "description": "Parameters needed in order to automatically scale clusters up and down based on load.\nNote: autoscaling works best with DB runtime versions 3.0 or later.",
@@ -4071,6 +4302,60 @@
                     "timeout_seconds": {
                       "type": "number",
                       "description": "An optional timeout applied to each run of this job task. The default behavior is to have no timeout."
+                    },
+                    "webhook_notifications": {
+                      "type": "object",
+                      "properties": {
+                        "on_duration_warning_threshold_exceeded": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "on_failure": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "on_start": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "on_success": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "additionalProperties": false
                     }
                   },
                   "additionalProperties": false,
@@ -4112,6 +4397,9 @@
                   }
                 },
                 "additionalProperties": false
+              },
+              "ui_state": {
+                "type": "string"
               },
               "webhook_notifications": {
                 "type": "object",
@@ -4211,6 +4499,9 @@
                         },
                         "workload_size": {
                           "type": "string"
+                        },
+                        "workload_type": {
+                          "type": "string"
                         }
                       },
                       "additionalProperties": false,
@@ -4277,6 +4568,24 @@
                   "additionalProperties": false,
                   "required": [
                     "level"
+                  ]
+                }
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "key"
                   ]
                 }
               }
@@ -4801,6 +5110,27 @@
                 "type": "string",
                 "description": "Friendly identifier for this pipeline."
               },
+              "notifications": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "alerts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "email_recipients": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
               "permissions": {
                 "type": "array",
                 "items": {
@@ -4863,6 +5193,57 @@
               }
             },
             "additionalProperties": false
+          }
+        },
+        "registered_models": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "catalog_name": {
+                "type": "string"
+              },
+              "comment": {
+                "type": "string"
+              },
+              "grants": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "principal": {
+                      "type": "string"
+                    },
+                    "privileges": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "privileges",
+                    "principal"
+                  ]
+                }
+              },
+              "name": {
+                "type": "string"
+              },
+              "schema_name": {
+                "type": "string"
+              },
+              "storage_location": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "catalog_name",
+              "name",
+              "schema_name"
+            ]
           }
         }
       },
@@ -4936,10 +5317,7 @@
               },
               "additionalProperties": false,
               "required": [
-                "type",
-                "path",
-                "files",
-                "build"
+                "type"
               ]
             }
           },
@@ -5118,6 +5496,21 @@
                       },
                       "additionalProperties": false
                     },
+                    "deployment": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string"
+                        },
+                        "metadata_file_path": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "kind"
+                      ]
+                    },
                     "email_notifications": {
                       "type": "object",
                       "description": "An optional set of email addresses that is notified when runs of this job begin or complete as well as when this job is deleted. The default behavior is to not send any emails.",
@@ -5258,6 +5651,9 @@
                             "type": "object",
                             "description": "If new_cluster, a description of a cluster that is created for only for this task.",
                             "properties": {
+                              "apply_policy_default_values": {
+                                "type": "boolean"
+                              },
                               "autoscale": {
                                 "type": "object",
                                 "description": "Parameters needed in order to automatically scale clusters up and down based on load.\nNote: autoscaling works best with DB runtime versions 3.0 or later.",
@@ -5715,6 +6111,18 @@
                         ]
                       }
                     },
+                    "queue": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": {
+                          "type": "boolean"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "enabled"
+                      ]
+                    },
                     "run_as": {
                       "type": "object",
                       "properties": {
@@ -6011,6 +6419,9 @@
                             "type": "object",
                             "description": "If new_cluster, a description of a cluster that is created for only for this task.",
                             "properties": {
+                              "apply_policy_default_values": {
+                                "type": "boolean"
+                              },
                               "autoscale": {
                                 "type": "object",
                                 "description": "Parameters needed in order to automatically scale clusters up and down based on load.\nNote: autoscaling works best with DB runtime versions 3.0 or later.",
@@ -6694,6 +7105,60 @@
                           "timeout_seconds": {
                             "type": "number",
                             "description": "An optional timeout applied to each run of this job task. The default behavior is to have no timeout."
+                          },
+                          "webhook_notifications": {
+                            "type": "object",
+                            "properties": {
+                              "on_duration_warning_threshold_exceeded": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              },
+                              "on_failure": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              },
+                              "on_start": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              },
+                              "on_success": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              }
+                            },
+                            "additionalProperties": false
                           }
                         },
                         "additionalProperties": false,
@@ -6735,6 +7200,9 @@
                         }
                       },
                       "additionalProperties": false
+                    },
+                    "ui_state": {
+                      "type": "string"
                     },
                     "webhook_notifications": {
                       "type": "object",
@@ -6834,6 +7302,9 @@
                               },
                               "workload_size": {
                                 "type": "string"
+                              },
+                              "workload_type": {
+                                "type": "string"
                               }
                             },
                             "additionalProperties": false,
@@ -6900,6 +7371,24 @@
                         "additionalProperties": false,
                         "required": [
                           "level"
+                        ]
+                      }
+                    },
+                    "tags": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "key": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                          "key"
                         ]
                       }
                     }
@@ -7424,6 +7913,27 @@
                       "type": "string",
                       "description": "Friendly identifier for this pipeline."
                     },
+                    "notifications": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "alerts": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "email_recipients": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
                     "permissions": {
                       "type": "array",
                       "items": {
@@ -7487,6 +7997,57 @@
                   },
                   "additionalProperties": false
                 }
+              },
+              "registered_models": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "catalog_name": {
+                      "type": "string"
+                    },
+                    "comment": {
+                      "type": "string"
+                    },
+                    "grants": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "principal": {
+                            "type": "string"
+                          },
+                          "privileges": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                          "privileges",
+                          "principal"
+                        ]
+                      }
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "schema_name": {
+                      "type": "string"
+                    },
+                    "storage_location": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "catalog_name",
+                    "name",
+                    "schema_name"
+                  ]
+                }
               }
             },
             "additionalProperties": false
@@ -7499,6 +8060,24 @@
               },
               "user_name": {
                 "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "sync": {
+            "type": "object",
+            "properties": {
+              "exclude": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "include": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               }
             },
             "additionalProperties": false

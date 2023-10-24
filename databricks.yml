@@ -2,11 +2,14 @@
 bundle:
   name: awesome-dab-cicd-project
 
+include:
+  - bundles/*.yml
+
 variables:
   dev-catalog:
     description: "Development catalog: dev and test only"
     default: dev_catalog_awesome_company
-  
+
   dev-schema:
     description: "Development schema: dev and test only"
     default: dev_schema_awesome_company
@@ -19,23 +22,35 @@ variables:
     description: "Production schema"
     default: prod_schema_awesome_company
 
+  job-cluster-id:
+    description: "This is the cluster where the job is going to be executed"
+    default: 0908-194241-na3ezc37
+
 resources:
   pipelines:
     dlt-sensors-pipeline:
-      name: "[${bundle.target}] DTL Sensors pipeline"
+      name: "DTL Sensors pipeline"
       continuous: false
       channel: "PREVIEW"
  
       libraries:
         - notebook:
-            path: src/dlt-pipelines/notebook-etl.sql
+            path: src/dlt-pipelines/turbine-sensors-etl.sql
       edition: "ADVANCED"
 
+      permissions:
+        - group_name: users
+          level: CAN_VIEW
+
+        - group_name: users
+          level: CAN_RUN
+    
 targets:
   dev:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
     default: true
+    mode: development
     
     resources:
       pipelines:
@@ -51,6 +66,8 @@ targets:
   prod:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
+
+    # mode: production
     resources:
       pipelines:
         dlt-sensors-pipeline:
