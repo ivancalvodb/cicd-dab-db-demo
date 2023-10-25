@@ -7,23 +7,17 @@ resources:
         # Task A
         - task_key: task_a
           notebook_task:
-            notebook_path: ../src/jobs/galaxy-job/task_1A.py
-          
-          existing_cluster_id: ${var.job-cluster-id}
+            notebook_path: src/jobs/galaxy-job/task_1A.py
 
         # Task B
         - task_key: task_b
           notebook_task:
-            notebook_path: ../src/jobs/galaxy-job/task_1B.py
-          
-          existing_cluster_id: ${var.job-cluster-id}
+            notebook_path: src/jobs/galaxy-job/task_1B.py
 
         # Task C
         - task_key: task_c
           notebook_task:
-            notebook_path: ../src/jobs/galaxy-job/task_1C.py
-          
-          existing_cluster_id: ${var.job-cluster-id}
+            notebook_path: src/jobs/galaxy-job/task_1C.py
 
         # Task D
         - task_key: task_d
@@ -35,10 +29,7 @@ resources:
           run_if: ALL_SUCCESS
 
           notebook_task:
-            notebook_path: ../src/jobs/galaxy-job/task_2D.py
-          
-          existing_cluster_id: ${var.job-cluster-id}
-
+            notebook_path: src/jobs/galaxy-job/task_2D.py
 
       permissions:
         - group_name: users

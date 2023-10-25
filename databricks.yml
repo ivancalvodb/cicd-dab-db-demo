@@ -2,29 +2,26 @@
 bundle:
   name: awesome-dab-cicd-project
 
+variables:
+
+  # Defined in the bundle file
+  target_catalog: 
+    description: "Catalog that DLT resources are going to target"
+  target_schema: 
+    description: "Schema that DLT resources are going to target"
+
+  # Defined as environment variables
+  job_cluster_id: 
+    description: "Job cluster that is going to create the job resource"
+  
+  # WORK ON PROGRESS
+  # dev_workspace_host:
+    # description: "Prod Workspace host URL"
+  # prod_workspace_host:
+    # description: "Prod Workspace host URL"
+
 include:
   - bundles/*.yml
-
-variables:
-  dev-catalog:
-    description: "Development catalog: dev and test only"
-    default: dev_catalog_awesome_company
-
-  dev-schema:
-    description: "Development schema: dev and test only"
-    default: dev_schema_awesome_company
-
-  prod-catalog:
-    description: "Production catalog"
-    default: prod_catalog_awesome_company
-
-  prod-schema:
-    description: "Production schema"
-    default: prod_schema_awesome_company
-
-  job-cluster-id:
-    description: "This is the cluster where the job is going to be executed"
-    default: 0908-194241-na3ezc37
 
 resources:
   pipelines:
@@ -38,6 +35,9 @@ resources:
             path: src/dlt-pipelines/turbine-sensors-etl.sql
       edition: "ADVANCED"
 
+      catalog: ${var.target_catalog}
+      target: ${var.target_schema}
+
       permissions:
         - group_name: users
           level: CAN_VIEW
@@ -49,6 +49,14 @@ targets:
   dev:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
+      # host: ${var.dev_workspace_host}
+
+    variables:
+      target_catalog: dev_catalog_awesome_company
+      target_schema: dev_schema_awesome_company
+      # job_cluster_id: THIS VALUE COMES FROM THE ENV VARIABLE SO IT CAN BE DIFFERENT ON DEV AND PROD
+      # dev_workspace_host: THIS VALUE COMES FROM THE ENV VARIABLE SO IT CAN BE DIFFERENT ON DEV AND PROD
+
     default: true
     mode: development
     
@@ -57,25 +65,38 @@ targets:
         dlt-sensors-pipeline:
           development: true
           photon: false
-          catalog: ${var.dev-catalog}
-          target: ${var.dev-schema}
+
           clusters:
             - label: "default"
               num_workers: 2
 
+      jobs:
+        galaxy-job:
+          job_clusters:
+            - job_cluster_key: ${var.job_cluster_id} # 0908-194241-na3ezc37
+
   prod:
     workspace:
-      host: https://adb-984752964297111.11.azuredatabricks.net
+      host: https://adb-984752964297111.11.azuredatabricks.net #https://e2-demo-west.cloud.databricks.com #${var.prod_workspace_host}
 
+    variables:
+      target_catalog: prod_catalog_awesome_company
+      target_schema: prod_schema_awesome_company
+      # job_cluster_id: THIS VALUE COMES FROM THE ENV VARIABLE SO IT CAN BE DIFFERENT ON DEV AND PROD
+      # prod_workspace_host: THIS VALUE COMES FROM THE ENV VARIABLE SO IT CAN BE DIFFERENT ON DEV AND PROD
+      
     # mode: production
     resources:
       pipelines:
         dlt-sensors-pipeline:
           development: false
           photon: true
-          catalog: ${var.prod-catalog}
-          target: ${var.prod-schema}
 
           clusters:
             - label: "default"
               num_workers: 4
+
+      jobs:
+        galaxy-job:
+          job_clusters:
+            - job_cluster_key: ${var.job_cluster_id}
