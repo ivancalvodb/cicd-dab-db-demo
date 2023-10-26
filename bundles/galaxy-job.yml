@@ -3,6 +3,9 @@ resources:
     galaxy-job:
       name: "Awesome Galaxy Job"
 
+      job_clusters:
+        - job_cluster_key: ${var.job_cluster_id}
+      
       tasks:
         # Task A
         - task_key: task_a

@@ -20,8 +20,8 @@ variables:
   # prod_workspace_host:
     # description: "Prod Workspace host URL"
 
-include:
-  - bundles/*.yml
+# include:
+#  - bundles/*.yml
 
 resources:
   pipelines:
@@ -70,10 +70,10 @@ targets:
             - label: "default"
               num_workers: 2
 
-      jobs:
-        galaxy-job:
-          job_clusters:
-            - job_cluster_key: ${var.job_cluster_id} # 0908-194241-na3ezc37
+      #jobs:
+      #  galaxy-job:
+      #    job_clusters:
+      #      - job_cluster_key: ${var.job_cluster_id} # 01234-abcde-45678
 
   prod:
     workspace:
