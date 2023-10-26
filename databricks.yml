@@ -96,7 +96,7 @@ targets:
             - label: "default"
               num_workers: 4
 
-      jobs:
-        galaxy-job:
-          job_clusters:
-            - job_cluster_key: ${var.job_cluster_id}
+      # jobs:
+      #  galaxy-job:
+      #    job_clusters:
+      #      - job_cluster_key: ${var.job_cluster_id}
