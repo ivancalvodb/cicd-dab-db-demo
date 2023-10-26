@@ -21,7 +21,7 @@ variables:
     # description: "Prod Workspace host URL"
 
 # include:
-#  - bundles/*.yml
+#  - bundles/*.yml x
 
 resources:
   pipelines:
