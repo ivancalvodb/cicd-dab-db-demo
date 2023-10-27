@@ -10,52 +10,31 @@ variables:
   target_schema: 
     description: "Schema that DLT resources are going to target"
 
-  # Defined as environment variables
-  job_cluster_id: 
-    description: "Job cluster that is going to create the job resource"
-  
-  # WORK ON PROGRESS
-  # dev_workspace_host:
-    # description: "Prod Workspace host URL"
-  # prod_workspace_host:
-    # description: "Prod Workspace host URL"
+include:
+  - jobs.yml
+  - dlt.yml
 
-# include:
-#  - bundles/*.yml x
+# resources:
+  # jobs:
+    # job-1:
+    #   ...
+    # job-2:
+    #   ...
 
-resources:
-  pipelines:
-    dlt-sensors-pipeline:
-      name: "DTL Sensors pipeline"
-      continuous: false
-      channel: "PREVIEW"
- 
-      libraries:
-        - notebook:
-            path: src/dlt-pipelines/turbine-sensors-etl.sql
-      edition: "ADVANCED"
-
-      catalog: ${var.target_catalog}
-      target: ${var.target_schema}
-
-      permissions:
-        - group_name: users
-          level: CAN_VIEW
-
-        - group_name: users
-          level: CAN_RUN
+  # pipelines:
+    # pipeline-1:
+    #   ...
+    # pipeline-2:
+      # ...
     
 targets:
   dev:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
-      # host: ${var.dev_workspace_host}
 
     variables:
       target_catalog: dev_catalog_awesome_company
       target_schema: dev_schema_awesome_company
-      # job_cluster_id: THIS VALUE COMES FROM THE ENV VARIABLE SO IT CAN BE DIFFERENT ON DEV AND PROD
-      # dev_workspace_host: THIS VALUE COMES FROM THE ENV VARIABLE SO IT CAN BE DIFFERENT ON DEV AND PROD
 
     default: true
     mode: development
@@ -70,20 +49,13 @@ targets:
             - label: "default"
               num_workers: 2
 
-      #jobs:
-      #  galaxy-job:
-      #    job_clusters:
-      #      - job_cluster_key: ${var.job_cluster_id} # 01234-abcde-45678
-
   prod:
     workspace:
-      host: https://adb-984752964297111.11.azuredatabricks.net #https://e2-demo-west.cloud.databricks.com #${var.prod_workspace_host}
+      host: https://adb-984752964297111.11.azuredatabricks.net
 
     variables:
       target_catalog: prod_catalog_awesome_company
       target_schema: prod_schema_awesome_company
-      # job_cluster_id: THIS VALUE COMES FROM THE ENV VARIABLE SO IT CAN BE DIFFERENT ON DEV AND PROD
-      # prod_workspace_host: THIS VALUE COMES FROM THE ENV VARIABLE SO IT CAN BE DIFFERENT ON DEV AND PROD
       
     # mode: production
     resources:
@@ -96,7 +68,11 @@ targets:
             - label: "default"
               num_workers: 4
 
-      # jobs:
-      #  galaxy-job:
-      #    job_clusters:
-      #      - job_cluster_key: ${var.job_cluster_id}
+      jobs:
+        galaxy-job:
+          job_clusters:
+            - job_cluster_key: common-cluster
+              new_cluster:
+                spark_version: 13.3.x-scala2.12
+                node_type_id: Standard_DS3_v2
+                num_workers: 4

@@ -1,0 +1,21 @@
+resources:
+  pipelines:
+    dlt-sensors-pipeline:
+      name: "DTL Sensors pipeline"
+      continuous: false
+      channel: "PREVIEW"
+ 
+      libraries:
+        - notebook:
+            path: src/dlt-pipelines/sensors-etl.sql
+      edition: "ADVANCED"
+
+      catalog: ${var.target_catalog}
+      target: ${var.target_schema}
+
+      permissions:
+        - group_name: users
+          level: CAN_VIEW
+
+        - group_name: users
+          level: CAN_RUN

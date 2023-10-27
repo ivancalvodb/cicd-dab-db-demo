@@ -9,9 +9,6 @@ env:
   DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
   DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
 
-  # For DABs variables
-  BUNDLE_VAR_job_cluster_id: ${{secrets.BUNDLE_VAR_JOB_CLUSTER_ID}}
-
 jobs:
 
   unit_testing:
