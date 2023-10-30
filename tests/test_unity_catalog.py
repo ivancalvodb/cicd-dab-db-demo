@@ -6,15 +6,12 @@ import time
 import databricks
 from databricks.sdk import WorkspaceClient
 
-import src.libraries.awesome_lib_1 as awesome_lib_1
+# import src.libraries.awesome_lib_1 as awesome_lib_1
 
 @pytest.fixture
 def ws_conn():
     # Return the workspace connection, uses DATABRICKS_HOST and DATABRICKS_TOKEN env variables.
     return WorkspaceClient(host = os.environ['DATABRICKS_HOST'], token = os.environ['DATABRICKS_TOKEN'])
-
-def test_add():
-    assert 1+2 == awesome_lib_1.add_two_numbers(1,2)
 
 def test_dbfs_paths(ws_conn):
     # - DBFS

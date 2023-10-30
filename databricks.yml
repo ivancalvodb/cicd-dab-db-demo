@@ -2,53 +2,40 @@
 bundle:
   name: awesome-dab-cicd-project
 
-include:
-  - bundles/*.yml
-
 variables:
-  dev-catalog:
-    description: "Development catalog: dev and test only"
-    default: dev_catalog_awesome_company
 
-  dev-schema:
-    description: "Development schema: dev and test only"
-    default: dev_schema_awesome_company
+  # Defined in the bundle file
+  target_catalog: 
+    description: "Catalog that DLT resources are going to target"
+  target_schema: 
+    description: "Schema that DLT resources are going to target"
 
-  prod-catalog:
-    description: "Production catalog"
-    default: prod_catalog_awesome_company
+include:
+  - jobs.yml
+  - dlt.yml
 
-  prod-schema:
-    description: "Production schema"
-    default: prod_schema_awesome_company
+# resources:
+  # jobs:
+    # job-1:
+    #   ...
+    # job-2:
+    #   ...
 
-  job-cluster-id:
-    description: "This is the cluster where the job is going to be executed"
-    default: 0908-194241-na3ezc37
-
-resources:
-  pipelines:
-    dlt-sensors-pipeline:
-      name: "DTL Sensors pipeline"
-      continuous: false
-      channel: "PREVIEW"
- 
-      libraries:
-        - notebook:
-            path: src/dlt-pipelines/turbine-sensors-etl.sql
-      edition: "ADVANCED"
-
-      permissions:
-        - group_name: users
-          level: CAN_VIEW
-
-        - group_name: users
-          level: CAN_RUN
+  # pipelines:
+    # pipeline-1:
+    #   ...
+    # pipeline-2:
+      # ...
     
 targets:
   dev:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
+
+    variables:
+      target_catalog: dev_catalog_awesome_company
+      target_schema: dev_schema_awesome_company
+
     default: true
     mode: development
     
@@ -57,8 +44,7 @@ targets:
         dlt-sensors-pipeline:
           development: true
           photon: false
-          catalog: ${var.dev-catalog}
-          target: ${var.dev-schema}
+
           clusters:
             - label: "default"
               num_workers: 2
@@ -67,15 +53,26 @@ targets:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
 
+    variables:
+      target_catalog: prod_catalog_awesome_company
+      target_schema: prod_schema_awesome_company
+      
     # mode: production
     resources:
       pipelines:
         dlt-sensors-pipeline:
           development: false
           photon: true
-          catalog: ${var.prod-catalog}
-          target: ${var.prod-schema}
 
           clusters:
             - label: "default"
               num_workers: 4
+
+      jobs:
+        galaxy-job:
+          job_clusters:
+            - job_cluster_key: common-cluster
+              new_cluster:
+                spark_version: 13.3.x-scala2.12
+                node_type_id: Standard_DS3_v2
+                num_workers: 4

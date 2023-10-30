@@ -2,31 +2,36 @@ resources:
   jobs:
     galaxy-job:
       name: "Awesome Galaxy Job"
+      
+      job_clusters:
+        - job_cluster_key: common-cluster
+          new_cluster:
+            spark_version: 13.3.x-scala2.12
+            node_type_id: Standard_DS3_v2
+            num_workers: 2
 
       tasks:
         # Task A
         - task_key: task_a
+          job_cluster_key: common-cluster
           notebook_task:
-            notebook_path: ../src/jobs/galaxy-job/task_1A.py
-          
-          existing_cluster_id: ${var.job-cluster-id}
+            notebook_path: src/jobs/galaxy-job/task_1A.py
 
         # Task B
         - task_key: task_b
+          job_cluster_key: common-cluster
           notebook_task:
-            notebook_path: ../src/jobs/galaxy-job/task_1B.py
-          
-          existing_cluster_id: ${var.job-cluster-id}
+            notebook_path: src/jobs/galaxy-job/task_1B.py
 
         # Task C
         - task_key: task_c
+          job_cluster_key: common-cluster
           notebook_task:
-            notebook_path: ../src/jobs/galaxy-job/task_1C.py
-          
-          existing_cluster_id: ${var.job-cluster-id}
+            notebook_path: src/jobs/galaxy-job/task_1C.py
 
         # Task D
         - task_key: task_d
+          job_cluster_key: common-cluster
           depends_on:
             - task_key: task_a
             - task_key: task_b
@@ -35,10 +40,7 @@ resources:
           run_if: ALL_SUCCESS
 
           notebook_task:
-            notebook_path: ../src/jobs/galaxy-job/task_2D.py
-          
-          existing_cluster_id: ${var.job-cluster-id}
-
+            notebook_path: src/jobs/galaxy-job/task_2D.py
 
       permissions:
         - group_name: users

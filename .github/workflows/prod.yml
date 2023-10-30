@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
 
 env:
+  # For CLI authentication
   DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
   DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
 
@@ -46,7 +47,7 @@ jobs:
 
       - name: Destroy past bundle files
         continue-on-error: true
-        run: databricks bundle destroy --auto-approve --target prod
+        run: databricks bundle destroy --target prod --auto-approve --force-lock 
 
       - run: databricks bundle deploy --target prod
 
