@@ -4,7 +4,7 @@ bundle:
 
 variables:
 
-  # Defined in the bundle file
+  # Defined in the bundle filesss
   target_catalog: 
     description: "Catalog that DLT resources are going to target"
   target_schema: 
