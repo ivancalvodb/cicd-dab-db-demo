@@ -4,7 +4,7 @@ bundle:
 
 variables:
 
-  # Defined in the bundle file
+  # Defined in the bundle filesss
   target_catalog: 
     description: "Catalog that DLT resources are going to target"
   target_schema: 
@@ -49,6 +49,7 @@ targets:
             - label: "default"
               num_workers: 2
 
+
   prod:
     workspace:
       host: https://adb-984752964297111.11.azuredatabricks.net
@@ -57,7 +58,7 @@ targets:
       target_catalog: prod_catalog_awesome_company
       target_schema: prod_schema_awesome_company
       
-    # mode: production
+    # mode: productionx
     resources:
       pipelines:
         dlt-sensors-pipeline:
