@@ -58,7 +58,7 @@ targets:
       target_catalog: prod_catalog_awesome_company
       target_schema: prod_schema_awesome_company
       
-    # mode: productionx
+    # mode: productionxzys
     resources:
       pipelines:
         dlt-sensors-pipeline:
